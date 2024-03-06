@@ -17,6 +17,9 @@ public class RequestHeaderServlet extends HttpServlet {
         printStartLine(req);
         printHeaders(req);
         printHeaderUtils(req);
+        printEtc(req);
+
+        resp.getWriter().write("ok");
     }
     private void printStartLine(HttpServletRequest request) {
         System.out.println("--- REQUEST-LINE - start ---");
