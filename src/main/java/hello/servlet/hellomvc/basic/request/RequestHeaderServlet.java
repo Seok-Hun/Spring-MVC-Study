@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 @WebServlet(name="requestHeaderServlet", urlPatterns = "/request-header")
 public class RequestHeaderServlet extends HttpServlet {
@@ -17,6 +16,9 @@ public class RequestHeaderServlet extends HttpServlet {
         printStartLine(req);
         printHeaders(req);
         printHeaderUtils(req);
+        printEtc(req);
+
+        resp.getWriter().write("ok");
     }
     private void printStartLine(HttpServletRequest request) {
         System.out.println("--- REQUEST-LINE - start ---");
