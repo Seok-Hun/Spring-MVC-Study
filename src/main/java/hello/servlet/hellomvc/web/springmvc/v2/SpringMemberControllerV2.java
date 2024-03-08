@@ -1,0 +1,45 @@
+package hello.servlet.hellomvc.web.springmvc.v2;
+
+import hello.servlet.hellomvc.domain.member.Member;
+import hello.servlet.hellomvc.domain.member.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+import java.util.Map;
+
+@Controller
+@RequestMapping("/springmvc/v2/members")
+public class SpringMemberControllerV2 {
+    private final MemberRepository memberRepository = MemberRepository.getInstance();
+
+    @RequestMapping("/new-form")
+    public ModelAndView newForm(){
+        return new ModelAndView("new-form");
+    }
+
+    @RequestMapping("/save")
+    public ModelAndView save(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        int age = Integer.parseInt(req.getParameter("age"));
+
+        Member member = new Member(username, age);
+        memberRepository.save(member);
+
+        ModelAndView modelView = new ModelAndView("save-result");
+        modelView.addObject("member",member);
+        return modelView;
+    }
+
+    @RequestMapping
+    public ModelAndView members() {
+        List<Member> members = memberRepository.findAll();
+        ModelAndView modelView = new ModelAndView("members");
+        modelView.addObject("members",members);
+
+        return modelView;
+    }
+}
