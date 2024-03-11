@@ -41,6 +41,16 @@ public class BasicItemController {
     }
 
     /**
+     * 상품 등록 폼 먼트롤러
+     * 단순히 뷰 템플릿만 호출
+     * @return basic/addForm
+     */
+    @GetMapping("/add")
+    public String addForm(){
+        return "basic/addForm";
+    }
+
+    /**
      * 테스트용 데이터 추가
      */
     @PostConstruct
