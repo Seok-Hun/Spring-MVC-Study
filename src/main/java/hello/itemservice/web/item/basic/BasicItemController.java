@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -24,6 +25,19 @@ public class BasicItemController {
         model.addAttribute("items",items);
         return "basic/items";
         // 뷰의 논리 이름
+    }
+
+    /**
+     * 상품 상세 컨트롤러
+     * @param itemId 조회할 상품의 ID, @PathVariable로 URL에서 얻는다.
+     * @param model 비어있는 model
+     * @return basic/item - 뷰의 논리 이름
+     */
+    @GetMapping("/{itemId}")
+    public String item(@PathVariable Long itemId, Model model){
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/item";
     }
 
     /**
