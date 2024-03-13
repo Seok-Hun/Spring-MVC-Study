@@ -123,6 +123,51 @@ public class BasicItemController {
     }
 
     /**
+     * 상품 등록 컨트롤러 - PRG 패턴 도입
+     * POST - Redirect - GET 패턴을 사용한다.
+     * @return 등록한 상품의 상세 페이지 경로로 redirect
+     */
+    @PostMapping("/add")
+    public String addItemV5(Item item){
+
+        itemRepository.save(item);
+        return "redirect:/basic/items/"+item.getId();
+    }
+
+    /**
+     * 상품 수정 폼 컨트롤러
+     * @param itemId
+     * @param model
+     * @return 상품 수정 뷰 템플릿
+     */
+    @GetMapping("/{itemId}/edit")
+    public String editForm(
+            @PathVariable Long itemId,
+            Model model
+    ){
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item",item);
+
+        return "basic/editForm";
+    }
+
+    /**
+     * 상품 수정 컨트롤러
+     * @param itemId
+     * @param item
+     * @return 상품 상세 정보 경로로 redirect
+     */
+    @PostMapping("/{itemId}/edit")
+    public String edit(
+            @PathVariable Long itemId,
+            @ModelAttribute Item item
+    ){
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
+        // 뷰 템플릿 호출 대신 상품 상세 화면으로 이동하도록 리다이렉트 호출
+    }
+
+    /**
      * 테스트용 데이터 추가
      */
     @PostConstruct
