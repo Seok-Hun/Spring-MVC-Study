@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class BasicItemController {
      * @ModelAttribute 전체를 생략한다..
      * @return basic/item (상품 상세 보기와 같은 뷰 템플릿)
      */
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV4(Item item){
 
         itemRepository.save(item);
@@ -127,11 +128,24 @@ public class BasicItemController {
      * POST - Redirect - GET 패턴을 사용한다.
      * @return 등록한 상품의 상세 페이지 경로로 redirect
      */
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV5(Item item){
 
         itemRepository.save(item);
         return "redirect:/basic/items/"+item.getId();
+    }
+
+    /**
+     * RedirectAttributes
+     */
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        // redirect URL의 PathVariable로 itemId 전달
+        redirectAttributes.addAttribute("status", true);
+        // redirect URL의 쿼리 파라미터로 status 전달
+        return "redirect:/basic/items/{itemId}";
     }
 
     /**
