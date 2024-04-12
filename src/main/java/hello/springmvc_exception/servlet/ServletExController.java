@@ -20,6 +20,6 @@ public class ServletExController {
 
     @GetMapping("/error-500")
     public void error500(HttpServletResponse response) throws Exception{
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "500 오류!");
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "500.html 오류!");
     }
 }
